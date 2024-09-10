@@ -2,6 +2,9 @@ CXX = g++
 CXXFLAGS = -I.
 
 %:
-	$(CXX) $(CXXFLAGS) -o $@ recipes/$@.cpp
-	./$@
+	mkdir -p build
+	$(CXX) $(CXXFLAGS) -o build/$@ recipes/$@.cpp
+	./build/$@
 
+clean:
+	rm -rf build
