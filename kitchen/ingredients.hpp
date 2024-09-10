@@ -1,5 +1,5 @@
 
-#include "cookware.hpp"
+#include "kitchen/cookware.hpp"
 
 template <typename T>
 void add_salt(T &thing)
@@ -53,6 +53,7 @@ struct Rice : Ingredient
     void cook(Pot &pot, Stove &stove)
     {
         std::cout << "Preparing to cook rice \U0001F35A" << std::endl;
+        
         double water_volume = weight * 2;
         if (pot.volume < water_volume)
             throw std::exception();
@@ -60,7 +61,6 @@ struct Rice : Ingredient
         add_salt(pot);
         pot.add(*this);
         stove.cook(pot, Stove::Heat::Medium);
-
     }
 };
 

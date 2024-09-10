@@ -1,0 +1,1 @@
+build and run using `make curry_with_rice`.
