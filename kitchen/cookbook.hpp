@@ -1,5 +1,9 @@
 #pragma once
 #include <iostream>
+#include <thread>
+#include <chrono>
+
+using namespace std::chrono_literals;
 
 struct cookbook
 {
@@ -31,6 +35,11 @@ struct cookbook
         }
         return os;
     };
+
+    static void wait(std::chrono::steady_clock::duration duration)
+    {
+        //std::this_thread::sleep_for(std::chrono::steady_clock::duration(duration.count() / 60));
+    }
 
     private:
     enum class state

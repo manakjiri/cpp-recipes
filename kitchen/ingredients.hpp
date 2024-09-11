@@ -95,7 +95,7 @@ struct Rice : Ingredient
         std::cout << weight << " kg" << std::endl;
     }
 
-    void cook(Pot &pot, Stove &stove)
+    void start_cooking(Pot &pot, Stove &stove)
     {
         std::cout << cookbook::format << "Preparing to cook rice \U0001F35A" << std::endl;
 
@@ -106,8 +106,28 @@ struct Rice : Ingredient
         add_salt(pot);
         pot.add(*this);
         stove.cook(pot, Stove::Heat::Medium);
+    }
 
-        // dodelat hlidani vareni a michani?
+    void monitor_cooking(Pot &pot, Stove &stove)
+    {
+        // Wait for the rice to cook.
+        std::cout << cookbook::format << "Waiting for the rice to cook.\U0001F35A" << std::endl;
+
+        cookbook::wait(std::chrono::minutes(10));
+        for (int i = 0; i < 10; i++)
+        {
+            if (packaging == Packaging::Bag)
+            {
+                /* check if the bag is full, if so, break out */
+            }
+            else if (packaging == Packaging::Loose)
+            {
+                /* check if the rice is cooked by tasting it, if so, break out */
+            }
+            cookbook::wait(std::chrono::minutes(1));
+            /* it should take 20 minutes maximum */
+        }
+        stove.finish_cooking(pot);
     }
 };
 

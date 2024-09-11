@@ -1,11 +1,8 @@
 
 #include <thread>
+#include <mutex>
 
 #include "kitchen/ingredients.hpp"
-
-//defaultni jednotky vyresit
-// thready vyresit
-
 
 
 int main()
@@ -31,7 +28,7 @@ int main()
     Carrot carrots{0.5 * guests};
     Oil curry_pot_oil{0.1, Oil::Type::Rapeseed}; //is rapeseed legit 
     Oil tofu_pan_oil{0.1, Oil::Type::Rapeseed};
-    Broth vegetable_broth{0.6 * guests, Broth::Source::Vegetable, Broth::Form::Cubes};
+    Broth vegetable_broth{0.1 * guests, Broth::Source::Vegetable, Broth::Form::Cubes};
     Tofu tofu{0.05 * guests};
     Milk coconut_milk{0.4, Milk::Type::Coconut};
     Chicken chicken{0.1 * guests, Chicken::Part::Breast}; //todo amount
@@ -40,10 +37,9 @@ int main()
 
     cookbook::begin_recipe();
 
-    std::thread rice_thread([&](){
-        rice.cook(rice_pot, rice_stove);
-    });
-
+    // let the rice cook and move onto other things while it's cooking
+    rice.start_cooking(rice_pot, rice_stove);
+    rice.monitor_cooking(rice_pot, rice_stove);
 
     // priprava curry pt 1
     onions.peel();
@@ -51,18 +47,16 @@ int main()
     carrots.peel();
     carrots.chop();
 
-    std::thread curry_thread([&](){
-        curry_pot.add(curry_pot_oil);
-        curry_pot.add(onions);
-        stove.cook(curry_pot, Stove::Heat::Medium);
-        // wait(5 minut)
-        curry_pot.add(carrots);
-        carrots.add_spice("turmeric"); // quite a lot, 4 big spoons
-        carrots.add_spice("pepper");
-        curry_pot.add(carrots);
-        curry_pot.add_lid();
-        // Let it cook
-    });
+    curry_pot.add(curry_pot_oil);
+    curry_pot.add(onions);
+    stove.cook(curry_pot, Stove::Heat::Medium);
+    // wait(5 minut)
+    curry_pot.add(carrots);
+    carrots.add_spice("turmeric"); // quite a lot, 4 big spoons
+    carrots.add_spice("pepper");
+    curry_pot.add(carrots);
+    curry_pot.add_lid();
+    // Let it cook
 
     // Lets prepare the tofu.
     tofu_pan.add(tofu_pan_oil);
@@ -96,8 +90,8 @@ int main()
     //curry_pot.add(mug) nelze bohuzel
     stove.finish_cooking(curry_pot);
 
-    rice_thread.join();
-    curry_thread.join();
+    //rice_thread.join();
+    //curry_thread.join();
 
     cookbook::finish();
 
