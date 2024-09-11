@@ -103,8 +103,8 @@ struct Rice : Ingredient
         if (pot.volume < water_volume)
             throw std::exception();
 
-        add_salt(pot);
         pot.add(*this);
+        add_salt(pot);
         stove.cook(pot, Stove::Heat::Medium);
     }
 

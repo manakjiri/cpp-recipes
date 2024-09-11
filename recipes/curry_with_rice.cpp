@@ -26,12 +26,12 @@ int main()
 
     Onion onions{1./3. * guests, Onion::Kind::Red};
     Carrot carrots{0.5 * guests};
-    Oil curry_pot_oil{0.1, Oil::Type::Rapeseed}; //is rapeseed legit 
+    Oil curry_pot_oil{0.1, Oil::Type::Rapeseed};
     Oil tofu_pan_oil{0.1, Oil::Type::Rapeseed};
     Broth vegetable_broth{0.1 * guests, Broth::Source::Vegetable, Broth::Form::Cubes};
     Tofu tofu{0.05 * guests};
     Milk coconut_milk{0.4, Milk::Type::Coconut};
-    Chicken chicken{0.1 * guests, Chicken::Part::Breast}; //todo amount
+    Chicken chicken{0.1 * guests, Chicken::Part::Breast};
     Flour flour{0.05, Flour::Type::Plain};
     Water water(0.1);
 
@@ -41,7 +41,7 @@ int main()
     rice.start_cooking(rice_pot, rice_stove);
     rice.monitor_cooking(rice_pot, rice_stove);
 
-    // priprava curry pt 1
+    // Begin preparing the curry
     onions.peel();
     onions.chop();
     carrots.peel();
@@ -50,7 +50,7 @@ int main()
     curry_pot.add(curry_pot_oil);
     curry_pot.add(onions);
     stove.cook(curry_pot, Stove::Heat::Medium);
-    // wait(5 minut)
+    cookbook::wait(std::chrono::minutes(5));
     curry_pot.add(carrots);
     carrots.add_spice("turmeric"); // quite a lot, 4 big spoons
     carrots.add_spice("pepper");
@@ -64,7 +64,7 @@ int main()
     tofu.add_spice("paprika");
     tofu_pan.add(tofu);
     stove.cook(tofu_pan, Stove::Heat::High);
-    //wait(5 minut)
+    cookbook::wait(std::chrono::minutes(5));
 
     //vratime se k nasemu curry pot
     curry_pot.remove_lid();
@@ -78,7 +78,7 @@ int main()
     add_salt(chicken);
     chicken_pan.add(chicken);
     stove.cook(chicken_pan, Stove::Heat::Medium);
-    // wait(15 minut)
+    cookbook::wait(std::chrono::minutes(15));
     stove.finish_cooking(chicken_pan);
 
     mug.add(flour);
@@ -86,8 +86,7 @@ int main()
     mug.mix();
 
     curry_pot.remove_lid();
-    //curry_pot.add(mug.remove()); // slowly add mug contents bit by bit until the sauce is thick
-    //curry_pot.add(mug) nelze bohuzel
+    curry_pot.add(flour); // slowly add mug contents bit by bit until the sauce is thick
     stove.finish_cooking(curry_pot);
 
     //rice_thread.join();
@@ -97,5 +96,3 @@ int main()
 
     return 0;
 }
-
-//vytvorit wait funkci, neimplementovat, std::chrono::duration jako arg.
