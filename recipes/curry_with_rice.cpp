@@ -13,6 +13,7 @@ int main()
     int guests = 6;
 
     std::cout << "Preparing curry with rice for " << guests << " guests!" << std::endl;
+    cookbook::begin_ingredients();
     
     /* Side Dish */
     Stove rice_stove;
@@ -37,6 +38,7 @@ int main()
     Flour flour{0.05, Flour::Type::Plain};
     Water water(0.1);
 
+    cookbook::begin_recipe();
 
     std::thread rice_thread([&](){
         rice.cook(rice_pot, rice_stove);
@@ -96,7 +98,9 @@ int main()
 
     rice_thread.join();
     curry_thread.join();
-    std::cout << "The meal is ready to be served.\U0001F35B Bon apetite!" << std::endl;
+
+    cookbook::finish();
+
     return 0;
 }
 

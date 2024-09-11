@@ -1,27 +1,30 @@
-
+#pragma once
 #include "kitchen/cookware.hpp"
+#include "kitchen/cookbook.hpp"
 
 template <typename T>
 void add_salt(T &thing)
 {
     // Add a pinch of salt.
-    std::cout << "Adding a pinch of salt. \U0001F9C2\U0001F90F" << std::endl;
+    std::cout << cookbook::format << "Adding a pinch of salt. \U0001F9C2\U0001F90F" << std::endl;
 }
 
-struct Ingredient{
+struct Ingredient
+{
     std::string name;
 
-    Ingredient(const std::string& name) : name(name) {}
+    Ingredient(const std::string &name) : name(name) {}
 
     void add_spice(std::string spice) // todo amount
     {
-        std::cout << "Adding a pinch of " << spice << ".\U0001F90F" << std::endl;
+        std::cout << cookbook::format << "Adding a pinch of " << spice << ".\U0001F90F" << std::endl;
     }
 
     virtual ~Ingredient() {}
 };
 
-std::ostream& operator << (std::ostream &os, const Ingredient &i) {
+std::ostream &operator<<(std::ostream &os, const Ingredient &i)
+{
     return (os << i.name);
 };
 
@@ -48,22 +51,65 @@ struct Rice : Ingredient
     Packaging packaging;
 
     Rice(double weight, Kind kind, Packaging packaging)
-        : Ingredient("rice"),  weight(weight), kind(kind), packaging(packaging) {}
+        : Ingredient("rice"), weight(weight), kind(kind), packaging(packaging)
+    {
+        std::cout << cookbook::format;
+
+        switch (kind)
+        {
+        case Kind::Basmati:
+            std::cout << "Basmati ";
+            break;
+        case Kind::Jasmine:
+            std::cout << "Jasmine ";
+            break;
+        case Kind::Arborio:
+            std::cout << "Arborio ";
+            break;
+        case Kind::Sushi:
+            std::cout << "Sushi ";
+            break;
+        case Kind::Brown:
+            std::cout << "Brown ";
+            break;
+        case Kind::Parboiled:
+            std::cout << "Parboiled ";
+            break;
+        default:
+            break;
+        }
+        std::cout << "Rice ";
+
+        switch (packaging)
+        {
+        case Packaging::Loose:
+            std::cout << "(loose) ";
+            break;
+        case Packaging::Bag:
+            std::cout << "(bagged) ";
+            break;
+        default:
+            break;
+        }
+
+        std::cout << weight << " kg" << std::endl;
+    }
 
     void cook(Pot &pot, Stove &stove)
     {
-        std::cout << "Preparing to cook rice \U0001F35A" << std::endl;
-        
+        std::cout << cookbook::format << "Preparing to cook rice \U0001F35A" << std::endl;
+
         double water_volume = weight * 2;
         if (pot.volume < water_volume)
             throw std::exception();
-        
+
         add_salt(pot);
         pot.add(*this);
         stove.cook(pot, Stove::Heat::Medium);
+
+        // dodelat hlidani vareni a michani?
     }
 };
-
 
 struct Onion : public Ingredient
 {
@@ -73,20 +119,36 @@ struct Onion : public Ingredient
         Red,
     };
 
-
     double amount;
     Kind kind;
 
-    Onion(double amount, Kind kind) : Ingredient("onion"), amount(amount), kind(kind) {}
+    Onion(double amount, Kind kind) : Ingredient("onion"), amount(amount), kind(kind)
+    {
+        std::cout << cookbook::format;
+
+        switch (kind)
+        {
+        case Kind::White:
+            std::cout << "White ";
+            break;
+        case Kind::Red:
+            std::cout << "Red ";
+            break;
+        default:
+            break;
+        }
+
+        std::cout << "Onion " << amount << " pieces" << std::endl;
+    }
 
     void peel()
     {
-        std::cout << "Peeling the onion." << std::endl;
+        std::cout << cookbook::format << "Peeling the onion." << std::endl;
     }
 
     void chop()
     {
-        std::cout << "Choping the onion.\U0001F52A" << std::endl;
+        std::cout << cookbook::format << "Choping the onion.\U0001F52A" << std::endl;
     }
 };
 
@@ -95,32 +157,33 @@ struct Carrot : public Ingredient
 
     double amount;
 
-    Carrot(double amount) : Ingredient("carrot"), amount(amount) {}
+    Carrot(double amount) : Ingredient("carrot"), amount(amount) {
+        std::cout << cookbook::format << "Carrot " << amount << " pieces" << std::endl;
+    }
 
     void peel()
     {
-        std::cout << "Peeling the carrot.\U0001F955" << std::endl;
+        std::cout << cookbook::format << "Peeling the carrot.\U0001F955" << std::endl;
     }
 
     void chop()
     {
-        std::cout << "Choping the carrot.\U0001F52A\U0001F955" << std::endl;
+        std::cout << cookbook::format << "Choping the carrot.\U0001F52A\U0001F955" << std::endl;
     }
 };
 
-
-
 struct Tofu : public Ingredient
 {
-
     double weight;
 
-    Tofu(double weight) : Ingredient("tofu"), weight(weight) {}
+    Tofu(double weight) : Ingredient("tofu"), weight(weight) {
+        std::cout << cookbook::format << "Tofu " << weight << " kg" << std::endl;
+    }
 
     void cut()
     {
         // Cut into cubes.
-        std::cout << "Cutting tofu into cubes.\U0001F52A" << std::endl;
+        std::cout << cookbook::format << "Cutting tofu into cubes.\U0001F52A" << std::endl;
     }
 };
 
@@ -136,35 +199,76 @@ struct Oil : public Ingredient
     double amount;
     Type type;
 
-    Oil(double amount, Type type) : Ingredient("oil"), amount(amount), type(type) {}
+    Oil(double amount, Type type) : Ingredient("oil"), amount(amount), type(type) {
+        std::cout << cookbook::format;
+
+        switch (type)
+        {
+        case Type::Olive:
+            std::cout << "Olive ";
+            break;
+        case Type::Sunflower:
+            std::cout << "Sunflower ";
+            break;
+        case Type::Coconut:
+            std::cout << "Coconut ";
+            break;
+        case Type::Rapeseed:
+            std::cout << "Rapeseed ";
+            break;
+        default:
+            break;
+        }
+
+        std::cout << "Oil " << amount << " l" << std::endl;
+    }
 };
 
 struct Chicken : public Ingredient
 {
-    enum class Part{
+    enum class Part
+    {
         Breast,
         Thigh
     };
     double weight;
     Part part;
 
-    Chicken(double weight, Part part) : Ingredient("chicken"), weight(weight), part(part) {}
+    Chicken(double weight, Part part) : Ingredient("chicken"), weight(weight), part(part) {
+        std::cout << cookbook::format;
+
+        switch (part)
+        {
+        case Part::Breast:
+            std::cout << "Chicken breast ";
+            break;
+        case Part::Thigh:
+            std::cout << "Chicken thigh ";
+            break;
+        default:
+            break;
+        }
+
+        std::cout << weight << " kg" << std::endl;
+    }
 
     void cut_into_cubes()
     {
-        std::cout << "Cutting chicken into cubes. \U0001F52A\U0001F357" << std::endl;
+        std::cout << cookbook::format << "Cutting chicken into cubes. \U0001F52A\U0001F357" << std::endl;
         // Cut into cubes.
     }
 };
 
 struct Broth : public Ingredient
 {
-    enum class Source{
+    enum class Source
+    {
         Chicken,
         Vegetable
     };
-    
-    enum class Form{
+
+    enum class Form
+    {
         Cubes,
         Fresh
     };
@@ -174,14 +278,29 @@ struct Broth : public Ingredient
 
     double amount; // how many litres
 
-    Broth(double amount, Source source, Form form) : Ingredient("broth"), amount(amount), source(source), form(form) {}
+    Broth(double amount, Source source, Form form) : Ingredient("broth"), amount(amount), source(source), form(form) {
+        std::cout << cookbook::format;
 
-    
+        switch (source)
+        {
+        case Source::Chicken:
+            std::cout << "Chicken ";
+            break;
+        case Source::Vegetable:
+            std::cout << "Vegetable ";
+            break;
+        default:
+            break;
+        }
+
+        std::cout << "Broth " << amount << " l" << std::endl;
+    }
 };
 
 struct Milk : public Ingredient
 {
-    enum class Type{
+    enum class Type
+    {
         Cow,
         Coconut,
         Oat
@@ -191,12 +310,32 @@ struct Milk : public Ingredient
 
     double amount;
 
-    Milk(double amount, Type type) : Ingredient("milk"), amount(amount), type(type) {}
+    Milk(double amount, Type type) : Ingredient("milk"), amount(amount), type(type) {
+        std::cout << cookbook::format;
+
+        switch (type)
+        {
+        case Type::Cow:
+            std::cout << "Cow ";
+            break;
+        case Type::Coconut:
+            std::cout << "Coconut ";
+            break;
+        case Type::Oat:
+            std::cout << "Oat ";
+            break;
+        default:
+            break;
+        }
+
+        std::cout << "Milk " << amount << " l" << std::endl;
+    }
 };
 
 struct Flour : public Ingredient
 {
-    enum class Type {
+    enum class Type
+    {
         AllPurpose,
         Bread,
         Plain
@@ -206,14 +345,33 @@ struct Flour : public Ingredient
 
     double amount;
 
-    Flour(double amount, Type type) : Ingredient("flour"), amount(amount) {}
+    Flour(double amount, Type type) : Ingredient("flour"), type(type), amount(amount) {
+        std::cout << cookbook::format;
 
+        switch (type)
+        {
+        case Type::AllPurpose:
+            std::cout << "All-purpose ";
+            break;
+        case Type::Bread:
+            std::cout << "Bread ";
+            break;
+        case Type::Plain:
+            std::cout << "Plain ";
+            break;
+        default:
+            break;
+        }
 
+        std::cout << "Flour " << amount << " kg" << std::endl;
+    }
 };
 
 struct Water : public Ingredient
 {
     double volume;
 
-    Water(double volume) : Ingredient("water") , volume(volume) {}
+    Water(double volume) : Ingredient("water"), volume(volume) {
+        std::cout << cookbook::format << "Water " << volume << " l" << std::endl;
+    }
 };

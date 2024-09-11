@@ -1,6 +1,9 @@
+#pragma once
 
 #include <exception>
 #include <iostream>
+
+#include "kitchen/cookbook.hpp"
 
 namespace exceptions
 {
@@ -21,7 +24,7 @@ struct Stove
     void cook(T &thing, Heat heat)
     {
         // Output message based on heat level
-        std::cout << "Starting to cook with ";
+        std::cout << cookbook::format << "Starting to cook with ";
         switch (heat)
         {
         case Heat::Low:
@@ -39,11 +42,9 @@ struct Stove
     template <typename T>
     void finish_cooking(T &thing)
     {
-        std::cout << "Cooking finished!\U0001F958" << std::endl;
+        //std::cout << "Cooking finished!\U0001F958" << std::endl;
     }
-
 };
-
 
 class Pot
 {
@@ -58,19 +59,19 @@ public:
     void add_lid()
     {
         has_lid = true;
-        std::cout << "Adding the lid to the pot.\U0001F372" << std::endl;
+        std::cout << cookbook::format << "Adding the lid to the pot.\U0001F372" << std::endl;
     }
 
     void remove_lid()
     {
         has_lid = false;
-        std::cout << "Removing the lid from the pot.\U0001F372" << std::endl;
+        std::cout << cookbook::format << "Removing the lid from the pot.\U0001F372" << std::endl;
     }
 
     void fill(double amount)
     {
         filled_volume = amount;
-        std::cout << "Filling the pot with" << amount << "amount." << std::endl;
+        std::cout << cookbook::format << "Filling the pot with" << amount << "amount." << std::endl;
     }
 
     void pour_out(double amount)
@@ -86,21 +87,22 @@ public:
     template <typename T>
     void add(T &&thing)
     {
-        //filled_volume += thing.weight; e.g. oil has no weight
-        std::cout << "Adding " << thing << " to the pot." << std::endl;
+        // filled_volume += thing.weight; e.g. oil has no weight
+        std::cout << cookbook::format << "Adding " << thing << " to the pot." << std::endl;
     }
 
     template <typename T>
     T remove(T &thing)
     {
-        std::cout << "Removing " << thing << " from the pot." << std::endl;
+        std::cout << cookbook::format << "Removing " << thing << " from the pot." << std::endl;
         return std::move(thing);
     }
 };
 
 struct Pan
 {
-    enum class Type{
+    enum class Type
+    {
         Wok,
         Stewpan,
         Frying,
@@ -114,16 +116,15 @@ struct Pan
     template <typename T>
     void add(T &&thing)
     {
-        std::cout << "Adding " << thing << " to the pan." << std::endl;
+        std::cout << cookbook::format << "Adding " << thing << " to the pan." << std::endl;
     }
 
     template <typename T>
     T remove(T &thing)
     {
-        std::cout << "Removing " << thing << " from the pan." << std::endl;
+        std::cout << cookbook::format << "Removing " << thing << " from the pan." << std::endl;
         return std::move(thing);
     }
-
 };
 
 struct Mug
@@ -133,20 +134,20 @@ struct Mug
     Mug(double volume) : volume(volume) {}
 
     template <typename T>
-    void add(T &&thing)
+    void add(T &thing)
     {
-        std::cout << "Adding " << thing << " to the mug." << std::endl;
+        std::cout << cookbook::format << "Adding " << thing << " to the mug." << std::endl;
     }
 
     void mix()
     {
-        std::cout << "Mixing the contents of the mug.\U0001F944" << std::endl;
+        std::cout << cookbook::format << "Mixing the contents of the mug.\U0001F944" << std::endl;
     }
 
     template <typename T>
     T remove(T &thing)
     {
-        std::cout << "Removing " << thing << " from the mug." << std::endl;
+        std::cout << cookbook::format << "Removing " << thing << " from the mug." << std::endl;
         return std::move(thing);
     }
 };
