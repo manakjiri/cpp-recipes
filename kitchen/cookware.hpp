@@ -23,6 +23,7 @@ struct Stove
     template <typename T>
     void cook(T &thing, Heat heat)
     {
+        (void)thing;
         // Output message based on heat level
         std::cout << cookbook::format << "Starting to cook with ";
         switch (heat)
@@ -36,13 +37,16 @@ struct Stove
         case Heat::High:
             std::cout << "high heat.\U0001F525\U0001F975" << std::endl;
             break;
+        default:
+            break;
         }
     }
 
     template <typename T>
     void finish_cooking(T &thing)
     {
-        //std::cout << "Cooking finished!\U0001F958" << std::endl;
+        (void)thing;
+        // std::cout << "Cooking finished!\U0001F958" << std::endl;
     }
 };
 

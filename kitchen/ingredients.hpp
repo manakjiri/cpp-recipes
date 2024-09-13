@@ -5,6 +5,7 @@
 template <typename T>
 void add_salt(T &thing)
 {
+    (void)thing;
     // Add a pinch of salt.
     std::cout << cookbook::format << "Adding a pinch of salt. \U0001F9C2\U0001F90F" << std::endl;
 }
@@ -177,7 +178,8 @@ struct Carrot : public Ingredient
 
     double amount;
 
-    Carrot(double amount) : Ingredient("carrot"), amount(amount) {
+    Carrot(double amount) : Ingredient("carrot"), amount(amount)
+    {
         std::cout << cookbook::format << "Carrot " << amount << " pieces" << std::endl;
     }
 
@@ -196,7 +198,8 @@ struct Tofu : public Ingredient
 {
     double weight;
 
-    Tofu(double weight) : Ingredient("tofu"), weight(weight) {
+    Tofu(double weight) : Ingredient("tofu"), weight(weight)
+    {
         std::cout << cookbook::format << "Tofu " << weight << " kg" << std::endl;
     }
 
@@ -219,7 +222,8 @@ struct Oil : public Ingredient
     double amount;
     Type type;
 
-    Oil(double amount, Type type) : Ingredient("oil"), amount(amount), type(type) {
+    Oil(double amount, Type type) : Ingredient("oil"), amount(amount), type(type)
+    {
         std::cout << cookbook::format;
 
         switch (type)
@@ -254,7 +258,8 @@ struct Chicken : public Ingredient
     double weight;
     Part part;
 
-    Chicken(double weight, Part part) : Ingredient("chicken"), weight(weight), part(part) {
+    Chicken(double weight, Part part) : Ingredient("chicken"), weight(weight), part(part)
+    {
         std::cout << cookbook::format;
 
         switch (part)
@@ -293,12 +298,12 @@ struct Broth : public Ingredient
         Fresh
     };
 
+    double amount; // how many litres
     Source source;
     Form form;
 
-    double amount; // how many litres
-
-    Broth(double amount, Source source, Form form) : Ingredient("broth"), amount(amount), source(source), form(form) {
+    Broth(double amount, Source source, Form form) : Ingredient("broth"), amount(amount), source(source), form(form)
+    {
         std::cout << cookbook::format;
 
         switch (source)
@@ -326,11 +331,11 @@ struct Milk : public Ingredient
         Oat
     };
 
+    double amount;
     Type type;
 
-    double amount;
-
-    Milk(double amount, Type type) : Ingredient("milk"), amount(amount), type(type) {
+    Milk(double amount, Type type) : Ingredient("milk"), amount(amount), type(type)
+    {
         std::cout << cookbook::format;
 
         switch (type)
@@ -365,7 +370,8 @@ struct Flour : public Ingredient
 
     double amount;
 
-    Flour(double amount, Type type) : Ingredient("flour"), type(type), amount(amount) {
+    Flour(double amount, Type type) : Ingredient("flour"), type(type), amount(amount)
+    {
         std::cout << cookbook::format;
 
         switch (type)
@@ -391,7 +397,8 @@ struct Water : public Ingredient
 {
     double volume;
 
-    Water(double volume) : Ingredient("water"), volume(volume) {
+    Water(double volume) : Ingredient("water"), volume(volume)
+    {
         std::cout << cookbook::format << "Water " << volume << " l" << std::endl;
     }
 };

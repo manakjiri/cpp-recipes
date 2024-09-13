@@ -1,5 +1,5 @@
 CXX = g++
-CXXFLAGS = -I.
+CXXFLAGS = -I. -Wall
 
 %:
 	mkdir -p build

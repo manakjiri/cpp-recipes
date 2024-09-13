@@ -55,6 +55,7 @@ int main()
     carrots.add_spice("turmeric"); // quite a lot, 4 big spoons
     carrots.add_spice("pepper");
     curry_pot.add(carrots);
+    curry_pot.add(vegetable_broth);
     curry_pot.add_lid();
     // Let it cook
 

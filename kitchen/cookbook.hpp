@@ -3,7 +3,7 @@
 #include <thread>
 #include <chrono>
 
-using namespace std::chrono_literals;
+//using namespace std::chrono_literals;
 
 struct cookbook
 {
@@ -38,6 +38,7 @@ struct cookbook
 
     static void wait(std::chrono::steady_clock::duration duration)
     {
+        (void)duration;
         //std::this_thread::sleep_for(std::chrono::steady_clock::duration(duration.count() / 60));
     }
 
